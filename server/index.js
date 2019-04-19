@@ -6,7 +6,7 @@ const Question = require("./models/Question");
 /*
  * Express Bootstrap
  */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -56,6 +56,20 @@ app.get("/questions/asked", (req, res) => {
       formatResponse(res, "success", data);
     })
     .catch(error => formatResponse(res, "error", error));
+});
+
+app.post("/push/add-token", (req, res) => {
+  const data = {
+    token: req.body.pushToken,
+    platform: req.body.platform,
+    timezoneOffset: req.body.timezoneOffset
+  };
+
+  console.log("data", data);
+
+  return Promise.resolve()
+    .then(() => formatResponse(res, "success"))
+    .catch(err => formatResponse(res, "error", err));
 });
 
 /*
