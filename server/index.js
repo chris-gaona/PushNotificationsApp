@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const Question = require("./models/Question");
+const PushNotification = require("./models/PushNotification");
 
 /*
  * Express Bootstrap
@@ -67,7 +68,7 @@ app.post("/push/add-token", (req, res) => {
 
   console.log("data", data);
 
-  return Promise.resolve()
+  return PushNotification.addPushToken(data)
     .then(() => formatResponse(res, "success"))
     .catch(err => formatResponse(res, "error", err));
 });
