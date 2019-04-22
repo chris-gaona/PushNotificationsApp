@@ -4,6 +4,7 @@ import { ActivityIndicator, View } from "react-native";
 import Question from "./screens/Question";
 import Waiting from "./screens/Waiting";
 import Welcome from "./screens/Welcome";
+import EnablePush from "./screens/EnablePush";
 
 import Navigator from "./components/Navigator";
 import Container from "./components/Container";
@@ -14,7 +15,7 @@ import { loadFonts } from "./util/fonts";
 
 class App extends React.Component {
   state = {
-    fontsReady: false,
+    fontsReady: false
   };
 
   componentDidMount() {
@@ -22,7 +23,11 @@ class App extends React.Component {
   }
 
   render() {
-    if (!this.props.user.ready || !this.props.question.ready || !this.state.fontsReady) {
+    if (
+      !this.props.user.ready ||
+      !this.props.question.ready ||
+      !this.state.fontsReady
+    ) {
       return (
         <Container padding>
           <View style={{ flex: 1, justifyContent: "center" }}>
@@ -32,7 +37,9 @@ class App extends React.Component {
       );
     }
 
-    const initialSceneName = this.props.user.onboardingComplete ? "Question" : "Welcome";
+    const initialSceneName = this.props.user.onboardingComplete
+      ? "Question"
+      : "Welcome";
     return (
       <Container padding>
         <Navigator
@@ -42,6 +49,7 @@ class App extends React.Component {
             Welcome: { component: Welcome },
             Question: { component: Question },
             Waiting: { component: Waiting },
+            EnablePush: { component: EnablePush }
           }}
         />
       </Container>
@@ -54,7 +62,9 @@ export default () => (
     <QuestionData.Provider>
       <QuestionData.Consumer>
         {question => (
-          <UserData.Consumer>{user => <App question={question} user={user} />}</UserData.Consumer>
+          <UserData.Consumer>
+            {user => <App question={question} user={user} />}
+          </UserData.Consumer>
         )}
       </QuestionData.Consumer>
     </QuestionData.Provider>

@@ -11,14 +11,13 @@ import * as UserData from "../util/UserData";
 
 class Welcome extends React.Component {
   state = {
-    username: "",
+    username: ""
   };
 
   handleNext = () => {
     if (this.state.username.length > 0) {
-      this.props.completeOnboarding();
       this.props.setUsername(this.state.username);
-      this.props.goTo("Question");
+      this.props.goTo("EnablePush");
     } else {
       alert("Username is required.");
     }
@@ -29,7 +28,10 @@ class Welcome extends React.Component {
       <Container>
         <Card>
           <H1>Trivia!</H1>
-          <P>Every hour on the hour. Three new trivia questions to test your knowledge.</P>
+          <P>
+            Every hour on the hour. Three new trivia questions to test your
+            knowledge.
+          </P>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <TextInput
               placeholder="Choose a username..."
@@ -49,8 +51,6 @@ class Welcome extends React.Component {
 
 export default props => (
   <UserData.Consumer>
-    {({ setUsername, completeOnboarding }) => (
-      <Welcome {...props} setUsername={setUsername} completeOnboarding={completeOnboarding} />
-    )}
+    {({ setUsername }) => <Welcome {...props} setUsername={setUsername} />}
   </UserData.Consumer>
 );
