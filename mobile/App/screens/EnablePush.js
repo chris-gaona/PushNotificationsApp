@@ -11,8 +11,10 @@ import * as UserData from "../util/UserData";
 
 class EnablePush extends Component {
   handleEnable = () => {
-    this.props.completeOnboarding();
-    this.props.goTo("Question");
+    this.props.enablePushNotifications().then(() => {
+      this.props.completeOnboarding();
+      this.props.goTo("Question");
+    });
   };
 
   handleDismiss = () => {
@@ -43,8 +45,12 @@ class EnablePush extends Component {
 
 export default props => (
   <UserData.Consumer>
-    {user => (
-      <EnablePush {...props} completeOnboarding={user.completeOnboarding} />
+    {({ completeOnboarding, enablePushNotifications }) => (
+      <EnablePush
+        {...props}
+        completeOnboarding={completeOnboarding}
+        enablePushNotifications={enablePushNotifications}
+      />
     )}
   </UserData.Consumer>
 );

@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View, AppState } from "react-native";
 
 import Question from "./screens/Question";
 import Waiting from "./screens/Waiting";
@@ -12,6 +12,7 @@ import Container from "./components/Container";
 import * as UserData from "./util/UserData";
 import * as QuestionData from "./util/QuestionData";
 import { loadFonts } from "./util/fonts";
+import { setBadgeNumber } from "./util/pushNotifications";
 
 class App extends React.Component {
   state = {
@@ -20,7 +21,21 @@ class App extends React.Component {
 
   componentDidMount() {
     loadFonts().then(() => this.setState({ fontsReady: true }));
+    setBadgeNumber(0);
+    // Use AppState listener for when notification comes while app is open
+    AppState.addEventListener("change", this.handleAppStateChange);
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this.handleAppStateChange);
+  }
+
+  handleAppStateChange = nextAppState => {
+    // When app state changes to active remove badge count
+    if (nextAppState === "active") {
+      setBadgeNumber(0);
+    }
+  };
 
   render() {
     if (

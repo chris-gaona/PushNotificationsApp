@@ -34,7 +34,8 @@ const sendNewNotificationToAll = ({ questions, nextQuestionTime }) => {
         messages.push({
           to: doc.token,
           sound: "default",
-          body: questions[0].question
+          body: questions[0].question,
+          badge: questions.length // I have to manage what the badge count should be
         });
       });
 
